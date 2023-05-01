@@ -2,8 +2,7 @@
 #include <QStorageInfo>
 #include <QtCore/QDebug>
 
-#ifndef DEVICEINFO_H
-#define DEVICEINFO_H
+#pragma once
 
 
 
@@ -17,5 +16,3 @@ public:
     void GetVolumes();
     QList<QStorageInfo> volumes;
 };
-
-#endif // DEVICEINFO_H

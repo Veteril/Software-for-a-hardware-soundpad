@@ -1,119 +1,103 @@
 
 #include "samplewidget.h"
-
-
-
-
-
+#include "global.h"
 
 SampleWidget::SampleWidget(QWidget *parent)
-    : QWidget(parent){}
+    : QWidget(parent) {}
 
-SampleWidget::~SampleWidget()
-{
-
+SampleWidget::~SampleWidget() {
 }
 
-void SampleWidget::SetBaseConfiguration(QPushButton *button, QStorageInfo dDisk, QStorageInfo sDisk)
-{
-    this->resize(200,200);
-    this->setWindowTitle(button->text());
+void SampleWidget::SetBaseConfiguration(QPushButton *button, QStorageInfo dDisk, QStorageInfo sDisk) {
+	this->resize(200, 200);
+	this->setWindowTitle(button->text());
 
-    sampleButton = button;
-    downloadDisk = dDisk;
-    searchDisk = sDisk;
+	sampleButton = button;
+	downloadDisk = dDisk;
+	searchDisk   = sDisk;
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    QPushButton * renameButton = new QPushButton("Rename");
-    connect(renameButton, &QPushButton::clicked, this, &SampleWidget::RenameButtonClicked);
-    renameButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: silver;} \
+	QVBoxLayout *layout       = new QVBoxLayout(this);
+	QPushButton *renameButton = new QPushButton("Rename");
+	connect(renameButton, &QPushButton::clicked, this, &SampleWidget::RenameButtonClicked);
+	renameButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: ButtonColor;} \
     QPushButton:hover { background-color: orange; } \
     QPushButton:pressed { background-color: silver; }");
 
-    layout->addWidget(renameButton);
+	layout->addWidget(renameButton);
 
-    QPushButton * addFileButton = new QPushButton("Add File");
-    connect(addFileButton, &QPushButton::clicked, this, &SampleWidget::AddFileButtonClicked);
-    addFileButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: silver;} \
+	QPushButton *addFileButton = new QPushButton("Add File");
+	connect(addFileButton, &QPushButton::clicked, this, &SampleWidget::AddFileButtonClicked);
+	addFileButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: ButtonColor;} \
     QPushButton:hover { background-color: orange; } \
     QPushButton:pressed { background-color: silver; }");
 
-    layout->addWidget(addFileButton);
+	layout->addWidget(addFileButton);
 
-    SearchSuitableMP3Files();
+	SearchSuitableMP3Files();
 
-    listWidgetMain = new QListWidget();
-    foreach (QFileInfo fileInfo, files) {
-        QListWidgetItem *item = new QListWidgetItem(fileInfo.fileName());
-        listWidgetMain->addItem(item);
-    }
-    layout->addWidget(listWidgetMain);
+	listWidgetMain = new QListWidget();
+	foreach (QFileInfo fileInfo, files) {
+		QListWidgetItem *item = new QListWidgetItem(fileInfo.fileName());
+		listWidgetMain->addItem(item);
+	}
+	layout->addWidget(listWidgetMain);
 }
 
-void SampleWidget::SearchSuitableMP3Files()
-{
-    QDir dir(downloadDisk.rootPath());
-    QStringList filters;
-    filters << sampleButton->text() + ".mp3";
-    files = dir.entryInfoList(filters, QDir::Files|QDir::NoDotAndDotDot);
+void SampleWidget::SearchSuitableMP3Files() {
+	QDir dir(downloadDisk.rootPath());
+	QStringList filters;
+	filters << sampleButton->text() + ".mp3";
+	files = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
 }
 
-void SampleWidget::RenameButtonClicked()
-{
-    QInputDialog inputDialog;
-    QString text = QInputDialog::getText(this, tr("Rename Preset"), tr("New name(Without .mp3):"), QLineEdit::Normal);
-    if (!text.isEmpty()) {
-        sampleButton->setText(text);
-        foreach (QFileInfo fileInfo, files) {
-            QString newFileName = fileInfo.absolutePath() + "/" + text + "." + fileInfo.suffix();
-            QFile::rename(fileInfo.absoluteFilePath(), newFileName);
-        }
-    }
+void SampleWidget::RenameButtonClicked() {
+	QInputDialog inputDialog;
+	QString text = QInputDialog::getText(this, tr("Rename Preset"), tr("New name(Without .mp3):"), QLineEdit::Normal);
+	if (!text.isEmpty()) {
+		sampleButton->setText(text);
+		foreach (QFileInfo fileInfo, files) {
+			QString newFileName = fileInfo.absolutePath() + "/" + text + "." + fileInfo.suffix();
+			QFile::rename(fileInfo.absoluteFilePath(), newFileName);
+		}
+	}
 }
 
-void SampleWidget::AddFileButtonClicked()
-{
-    QDialog *dialog = new QDialog(this);
+void SampleWidget::AddFileButtonClicked() {
+	QDialog *dialog = new QDialog(this);
 
-    dialog->setWindowTitle("Add File");
-    dialog->resize(150,150);
+	dialog->setWindowTitle("Add File");
+	dialog->resize(150, 150);
 
-    listWidgetChild = new QListWidget(dialog);
-    QPushButton * addButton = new QPushButton(dialog);
+	listWidgetChild        = new QListWidget(dialog);
+	QPushButton *addButton = new QPushButton(dialog);
 
-    addButton->setText("Add");
-    connect(addButton, &QPushButton::clicked, this, &SampleWidget::AddButtonClicked);
-    addButton->setGeometry(25, 5, 100, 30);
-    listWidgetChild->setGeometry(0, 40, 150, 150);
+	addButton->setText("Add");
+	connect(addButton, &QPushButton::clicked, this, &SampleWidget::AddButtonClicked);
+	addButton->setGeometry(25, 5, 100, 30);
+	listWidgetChild->setGeometry(0, 40, 150, 150);
 
-    QDir dir(searchDisk.rootPath());
-    QStringList filters;
-    filters << "*.mp3";
-    files = dir.entryInfoList(filters, QDir::Files|QDir::NoDotAndDotDot);
+	QDir dir(searchDisk.rootPath());
+	QStringList filters;
+	filters << "*.mp3";
+	files = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
 
-    foreach (QFileInfo fileInfo, files) {
-        QListWidgetItem *item = new QListWidgetItem(fileInfo.fileName());
-        listWidgetChild->addItem(item);
-    }
-    dialog->exec();
+	foreach (QFileInfo fileInfo, files) {
+		QListWidgetItem *item = new QListWidgetItem(fileInfo.fileName());
+		listWidgetChild->addItem(item);
+	}
+	dialog->exec();
 }
 
-void SampleWidget::AddButtonClicked()
-{
-    if (listWidgetChild->count() > 0) {
-        QListWidgetItem* item = listWidgetChild->currentItem();
-        foreach (QFileInfo fileInfo, files) {
-            if(item->text() == fileInfo.fileName()) {
+void SampleWidget::AddButtonClicked() {
+	if (listWidgetChild->count() > 0) {
+		QListWidgetItem *item = listWidgetChild->currentItem();
+		foreach (QFileInfo fileInfo, files) {
+			if (item->text() == fileInfo.fileName()) {
 
-                QString sourceFilePath = fileInfo.absolutePath() + "/" + fileInfo.fileName();
-                QString targetFilePath = downloadDisk.rootPath() + sampleButton->text() + ".mp3";
-                QFile::copy(sourceFilePath, targetFilePath);
-            }
-        }
-    }
+				QString sourceFilePath = fileInfo.absolutePath() + "/" + fileInfo.fileName();
+				QString targetFilePath = downloadDisk.rootPath() + sampleButton->text() + ".mp3";
+				QFile::copy(sourceFilePath, targetFilePath);
+			}
+		}
+	}
 }
-
-
-
-
-
