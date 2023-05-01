@@ -19,15 +19,14 @@ void SampleWidget::SetBaseConfiguration(QPushButton *button, QStorageInfo dDisk,
 	QVBoxLayout *layout       = new QVBoxLayout(this);
 	QPushButton *renameButton = new QPushButton("Rename");
 	connect(renameButton, &QPushButton::clicked, this, &SampleWidget::RenameButtonClicked);
-	renameButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: ButtonColor;} \
+	renameButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: " + ButtonColor + ";} \
     QPushButton:hover { background-color: orange; } \
     QPushButton:pressed { background-color: silver; }");
-
 	layout->addWidget(renameButton);
 
 	QPushButton *addFileButton = new QPushButton("Add File");
 	connect(addFileButton, &QPushButton::clicked, this, &SampleWidget::AddFileButtonClicked);
-	addFileButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: ButtonColor;} \
+	addFileButton->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: " + ButtonColor + ";} \
     QPushButton:hover { background-color: orange; } \
     QPushButton:pressed { background-color: silver; }");
 

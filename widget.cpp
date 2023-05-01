@@ -14,7 +14,7 @@ void Widget::SetBaseConfiguration(DeviceInfo *deviceInfo) {
 			layout->setColumnStretch(col, 1); // устанавливаем ширину столбца
 			if (row != 0) {
 				QPushButton *button = new QPushButton(QString("%1").arg((row - 1) * 4 + col + 1), this);
-				button->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: ButtonColor;} \
+				button->setStyleSheet("QPushButton { border-radius: 9px;  border: 2px solid black; background-color: " + ButtonColor + ";} \
                     QPushButton:hover { background-color: orange; } \
                     QPushButton:pressed { background-color: silver; }");
 				buttons[row - 1][col] = button;
@@ -25,7 +25,7 @@ void Widget::SetBaseConfiguration(DeviceInfo *deviceInfo) {
 	}
 
 	downloadMenuButton = new QPushButton("Download Disk", this); // menu
-	downloadMenuButton->setStyleSheet("QPushButton { ;  border: 4px solid black; background-color: ButtonColor;} \
+	downloadMenuButton->setStyleSheet("QPushButton { ;  border: 4px solid black; background-color: " + ButtonColor + ";} \
     QPushButton:hover { background-color: green; } \
     QPushButton:pressed { background-color: silver; }");
 
@@ -39,7 +39,7 @@ void Widget::SetBaseConfiguration(DeviceInfo *deviceInfo) {
 	}
 
 	searchMenuButton = new QPushButton("Search Disk", this); // menu
-	searchMenuButton->setStyleSheet("QPushButton { border: 4px solid black; background-color: ButtonColor;} \
+	searchMenuButton->setStyleSheet("QPushButton { border: 4px solid black; background-color: " + ButtonColor + ";} \
         QPushButton:hover { background-color: green; } \
         QPushButton:pressed { background-color: silver; }");
 
@@ -53,7 +53,7 @@ void Widget::SetBaseConfiguration(DeviceInfo *deviceInfo) {
 	}
 
 	QPushButton *globalCheckButton = new QPushButton("Global Check", this); // refresh
-	globalCheckButton->setStyleSheet("QPushButton { border-radius: 10px; border: 3px solid black; background-color: ButtonColor;} \
+	globalCheckButton->setStyleSheet("QPushButton { border-radius: 10px; border: 3px solid black; background-color: " + ButtonColor + ";} \
     QPushButton:hover { background-color: green; } \
     QPushButton:pressed { background-color: silver; }");
 	connect(globalCheckButton, &QPushButton::clicked, this, &Widget::GlobalCheckClicked);
