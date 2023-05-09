@@ -9,6 +9,7 @@
 #include <QListWidget>
 #include <QDir>
 #include <QStorageInfo>
+#include <QSettings>
 
 class SampleWidget:public QWidget
 {
@@ -18,8 +19,10 @@ public:
     SampleWidget(QWidget *parent = nullptr);
     ~SampleWidget();
 
-    void SetBaseConfiguration(QPushButton * button, QStorageInfo disk, QStorageInfo searchDisk);
+    void SetBaseConfiguration(QPushButton * button, QStorageInfo disk, QStorageInfo searchDisk, int butttonId);
     void SearchSuitableMP3Files();
+
+    int buttonId;
 
     QStorageInfo downloadDisk;
     QStorageInfo searchDisk;

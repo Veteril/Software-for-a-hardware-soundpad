@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         samplewidget.cpp
         samplewidget.h
         global.h
+        config.ini
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

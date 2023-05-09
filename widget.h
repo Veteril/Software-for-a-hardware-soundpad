@@ -9,6 +9,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QWidget>
+#include <QSettings>
 
 
 
@@ -33,6 +34,7 @@ private:
     void SetBaseConfiguration(DeviceInfo * deviceInfo);
 
 private slots:
+    void RefreshDeviceButtonClicked();
     void SampleButtonClicked();
     void GlobalCheckClicked();
     void DownloadDiskActionTriggered();

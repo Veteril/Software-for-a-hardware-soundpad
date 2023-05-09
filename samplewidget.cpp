@@ -8,11 +8,12 @@ SampleWidget::SampleWidget(QWidget *parent)
 SampleWidget::~SampleWidget() {
 }
 
-void SampleWidget::SetBaseConfiguration(QPushButton *button, QStorageInfo dDisk, QStorageInfo sDisk) {
+void SampleWidget::SetBaseConfiguration(QPushButton *button, QStorageInfo dDisk, QStorageInfo sDisk, int butId) {
 	this->resize(200, 200);
 	this->setWindowTitle(button->text());
 
 	sampleButton = button;
+    buttonId = butId;
 	downloadDisk = dDisk;
 	searchDisk   = sDisk;
 
@@ -53,6 +54,8 @@ void SampleWidget::RenameButtonClicked() {
 	QInputDialog inputDialog;
 	QString text = QInputDialog::getText(this, tr("Rename Preset"), tr("New name(Without .mp3):"), QLineEdit::Normal);
 	if (!text.isEmpty()) {
+        QSettings settings("config.ini", QSettings::IniFormat);
+        settings.setValue(QString("button%1").arg(buttonId), text);
 		sampleButton->setText(text);
 		foreach (QFileInfo fileInfo, files) {
 			QString newFileName = fileInfo.absolutePath() + "/" + text + "." + fileInfo.suffix();
